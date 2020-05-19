@@ -1,0 +1,16 @@
+<div class="main posts-new">
+  <div class="content">
+    <div class="container">
+      <h1 class="form-heading">コメントする</h1>      
+      <div class="form">
+        <div class="form-body">
+          <%= form_tag("/comments/create") do %>
+            <%= hidden_field_tag :post_id, params[:id] %>
+            <textarea name="content"></textarea>
+            <input type="submit" value="コメントする">
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

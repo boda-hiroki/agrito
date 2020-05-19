@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Agrito</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %>" role="alert"><%= value %></div>
+    <% end %>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-transparent">
+      <div class="container">
+        <div class="navbar-text">
+          <%= link_to("あぐりっと", root_path) %>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <% if logged_in? %>
+            <% current_user = User.find_by(id: session[:user_id]) %>
+            <li>
+              <%= link_to(current_user.name, "/users/#{current_user.id}") %>
+            </li>
+            <li>
+              <%= link_to("投稿一覧", posts_index_path)  %>
+            </li>
+            <li>
+              <%= link_to("Log out", logout_path, method: :delete) %>
+            </li>
+          <% else %>
+            <li>
+              <%= link_to("Sign up", new_user_path) %>
+            </li>
+            <li>
+              <%= link_to("Log in", login_path) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+    
+    <%= yield %>
+    
+    <script>
+      $(function(){
+        $(".alert").fadeOut(5000);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<div class="main user-show">
+  <div class="content">
+    <div class="container">
+      <div class="user_left">
+        <div class="user">
+        <h2><%= @user.name %></h2>
+        <p><%= @user.email %></p>
+        <section class="stats">
+        <%= render 'shared/stats' %>
+        </section>
+        <%= render 'follow_form' if logged_in? %>
+        <% if @current_user.id == @user.id %>
+          <%= link_to("投稿する", "/posts/new") %>
+        <% end %>
+      </div>
+        <div class="message_forum">
+        <% if !current_user?(@user) && logged_in? %>
+          <section class="message_box">
+            <div id="messages">
+              <%= render @messages %>
+            </div>
+          </section>
+          <script type="text/javascript">
+            var height = 0;
+            $("div.message").each( function() {
+              height += ($(this).height());
+            });
+            $('section.message_box').scrollTop(height);
+          </script>
+          <div class="message_form">
+            <form class="message_form">
+              <input type="hidden" name="from_id" value="<%= current_user.id %>">
+              <input type="hidden" name="to_id" value="<%= @user.id %>">
+              <input type="hidden" name="room_id" value="<%= @room_id %>">
+              <label>Send Message to <%= @user.name %></label><br>
+              <input type="text" name="content" data-behavior="chat_speaker">
+            </form>
+          </div>
+        <% end %>
+      </div>
+      </div>
+      <div class="user_right">
+        <% @user.posts.each do |post| %>
+          <div class="posts-index-item">
+            <div class="post-user-name">
+              <%= link_to(post.user.name, "/users/#{post.user.id}") %>
+            </div>
+            <div class="post-content">
+              <%= link_to(post.content, "/posts/#{post.id}") %>
+            </div>
+          </div>
+          <hr class="post-content-line">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
