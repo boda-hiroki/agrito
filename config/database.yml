@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: agrito_production
-  username: agrito
-  password: <%= ENV['AGRITO_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
